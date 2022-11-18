@@ -23,7 +23,7 @@ function App() {
 	});
 
 	const handleHigher = () => {
-		if (currentVideo.views < nextVideo.views) {
+		if (currentVideo.views <= nextVideo.views) {
 			correct();
 		} else {
 			incorrect();
@@ -31,7 +31,7 @@ function App() {
 	};
 
 	const handleLower = () => {
-		if (currentVideo.views > nextVideo.views) {
+		if (currentVideo.views >= nextVideo.views) {
 			correct();
 		} else {
 			incorrect();
