@@ -5,6 +5,7 @@ import { videos } from './core/data.json';
 import { Video } from './core/types';
 import VideoShowcase from './components/videoShowcase/VideoShowcase';
 import cookie from 'react-cookies';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function App() {
     const [currentVideo, setCurrentVideo] = useState<Video>(
@@ -13,8 +14,10 @@ function App() {
     const [nextVideo, setNextVideo] = useState<Video>(
         getRandomVideo(videos, currentVideo)
     );
+
     const [score, setScore] = useState<number>(0);
     const [playing, setPlaying] = useState<boolean>(false);
+    const [showDeath, setShowDeath] = useState<boolean>(false);
     const [highScore, setHighScore] = useState<number>(0);
 
     useEffect(() => {
@@ -57,11 +60,8 @@ function App() {
     };
 
     const incorrect = () => {
-        setScore(0);
+        setShowDeath(true);
         setPlaying(false);
-
-        setNextVideo(getRandomVideo(videos, currentVideo));
-        setCurrentVideo(getRandomVideo(videos));
     };
 
     return (
@@ -86,6 +86,46 @@ function App() {
                         />
                     </span>
                     <div className='score'>Score: {score}</div>
+                </div>
+            ) : showDeath ? (
+                <div className='death'>
+                    <div>
+                        <span className='left'>
+                            <VideoShowcase
+                                video={currentVideo}
+                                position='left'
+                            />
+                        </span>
+
+                        <div className='go-text'>Game Over!</div>
+                        <button
+                            className='play-again'
+                            onClick={() => {
+                                setCurrentVideo(getRandomVideo(videos));
+                                setNextVideo(
+                                    getRandomVideo(videos, currentVideo)
+                                );
+                                setScore(0);
+
+                                setPlaying(true);
+                                setShowDeath(false);
+                            }}>
+                            Play Again
+                        </button>
+
+                        <div className='vs-circle'>
+                            <div className='vs-text icon'>X</div>
+                        </div>
+                        <span className='right'>
+                            <VideoShowcase
+                                video={nextVideo}
+                                position='left'
+                                handleHigher={handleHigher}
+                                handleLower={handleLower}
+                            />
+                        </span>
+                        <div className='score dead-score'>Score: {score}</div>
+                    </div>
                 </div>
             ) : (
                 <div className='start'>
