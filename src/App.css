@@ -1,0 +1,90 @@
+#root {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.left {
+	float: left;
+	width: 50%;
+	z-index: 1;
+}
+
+.right {
+	float: right;
+	width: 50%;
+	z-index: 1;
+}
+
+.versus {
+	width: 0px;
+	height: 0px;
+	position: absolute;
+}
+
+.vs-circle {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	background-color: #fff;
+	/* border: 1px solid #000; */
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: black;
+	z-index: 10;
+	font-size: 40px;
+	font-weight: 1000;
+	/* text-transform: uppercase; */
+	letter-spacing: 0.2rem;
+
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.vs-text {
+	font-size: 40px;
+	font-weight: 1000;
+	/* text-transform: uppercase; */
+	letter-spacing: 0.2rem;
+
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	margin-top: calc(50% - 16px);
+}
+
+.score {
+	font-size: 25px;
+	font-weight: 700;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	z-index: 99;
+	/* position: absolute;   */
+}
+
+.start {
+	margin-top: 200px;
+}
+
+.start-button {
+	width: 200px;
+	height: 70px;
+	border-radius: 50px;
+	background: transparent;
+	border: 2px solid #fff;
+	transition: all 0.3s ease;
+
+	font-size: 20px;
+	font-weight: 700;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.start-button:hover {
+	background: #fff;
+	color: #000;
+}
+
+.created-by {
+	margin-top: 100px;
+	font-size: 20px;
+	font-weight: 700;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}

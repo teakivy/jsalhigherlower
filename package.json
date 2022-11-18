@@ -1,0 +1,28 @@
+{
+  "name": "jsalviews",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@types/react-cookies": "^0.1.0",
+    "react": "^18.2.0",
+    "react-cookies": "^0.1.1",
+    "react-dom": "^18.2.0",
+    "usetube": "^2.2.2",
+    "yt-channel-info": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
+    "@types/usetube": "^2.1.0",
+    "@vitejs/plugin-react": "^2.2.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.2.3"
+  }
+}
