@@ -5,7 +5,6 @@ import { videos } from './core/data.json';
 import { Video } from './core/types';
 import VideoShowcase from './components/videoShowcase/VideoShowcase';
 import cookie from 'react-cookies';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function App() {
     const [currentVideo, setCurrentVideo] = useState<Video>(
