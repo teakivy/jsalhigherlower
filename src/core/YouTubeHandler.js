@@ -9,6 +9,8 @@ let channels = [
     'UCF9R3Ln-u52vUdSO-pFdETw', // JacksEpicYouTubeChannel...
     'UCqx-my2rOoQuEOHKNNgNppw', // JackSucksAtEspañol
     'UCbu2qTa75eyjwCKOugX8F6A', // turdboi420
+    'UCpCJRHoggwXQhuFbW4gjM_w', // JackSucksAtPopUpPirate
+    'UCJ4w2lMYOnBwsgQdFgbLqIg', // Samsmellsofapricots
 ];
 
 export async function updateFile() {

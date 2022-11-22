@@ -11,9 +11,7 @@ function App() {
     const [currentVideo, setCurrentVideo] = useState<Video>(
         getRandomVideo(videos)
     );
-    const [nextVideo, setNextVideo] = useState<Video>(
-        getRandomVideo(videos, currentVideo)
-    );
+    const [nextVideo, setNextVideo] = useState<Video>(getRandomVideo(videos));
 
     const [score, setScore] = useState<number>(0);
     const [playing, setPlaying] = useState<boolean>(false);
@@ -46,7 +44,7 @@ function App() {
     const correct = () => {
         let current = currentVideo;
         setCurrentVideo(nextVideo);
-        setNextVideo(getRandomVideo(videos, current));
+        setNextVideo(getRandomVideo(videos));
 
         if (score + 1 > highScore) {
             setHighScore(score + 1);
@@ -102,9 +100,7 @@ function App() {
                             className='play-again'
                             onClick={() => {
                                 setCurrentVideo(getRandomVideo(videos));
-                                setNextVideo(
-                                    getRandomVideo(videos, currentVideo)
-                                );
+                                setNextVideo(getRandomVideo(videos));
                                 setScore(0);
 
                                 setPlaying(true);
@@ -120,6 +116,7 @@ function App() {
                             <VideoShowcase
                                 video={nextVideo}
                                 position='left'
+                                gameOver={true}
                                 handleHigher={handleHigher}
                                 handleLower={handleLower}
                             />
@@ -156,12 +153,13 @@ function App() {
 
 export default App;
 
-function getRandomVideo(array: Video[], lastVideo?: Video): Video {
+let lastGenerated: Video | null = null;
+function getRandomVideo(array: Video[]): Video {
     const randomVideo = array[Math.floor(Math.random() * array.length)];
 
-    if (lastVideo != undefined && randomVideo === lastVideo) {
-        return getRandomVideo(array, lastVideo);
+    if (lastGenerated == null || randomVideo.views === lastGenerated.views) {
+        return randomVideo;
     }
 
-    return randomVideo;
+    return getRandomVideo(array);
 }
