@@ -40,6 +40,8 @@
     z-index: 2;
     /* transition: all 0.3s ease; */
     height: 0px;
+
+    transition: all ease-in-out 0.2s;
 }
 
 .has-text {

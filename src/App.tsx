@@ -6,10 +6,30 @@ import { Video } from './core/types';
 import VideoShowcase from './components/videoShowcase/VideoShowcase';
 import cookie from 'react-cookies';
 
+import styled, { keyframes } from 'styled-components';
+import { tada, shake, fadeIn as slideOutLeft } from 'react-animations';
+
+const tadaAnimation = keyframes`${tada}`;
+
+const TadaDiv = styled.div`
+    animation: 4s ${tadaAnimation} infinite;
+`;
+const shakeAnimation = keyframes`${shake}`;
+
+const ShakeDiv = styled.div`
+    animation: 1s ${shakeAnimation} 1;
+`;
+const bounceAnimation = keyframes`${slideOutLeft}`;
+
+const BounceDiv = styled.div`
+    animation: 1s ${bounceAnimation};
+`;
+
 function App() {
     const [currentVideo, setCurrentVideo] = useState<Video>(
         getRandomVideo(videos)
     );
+
     const [nextVideo, setNextVideo] = useState<Video>(getRandomVideo(videos));
 
     const [score, setScore] = useState<number>(0);
@@ -41,7 +61,6 @@ function App() {
     };
 
     const correct = () => {
-        let current = currentVideo;
         setCurrentVideo(nextVideo);
         setNextVideo(getRandomVideo(videos));
 
@@ -64,28 +83,7 @@ function App() {
     return (
         <div className='App'>
             {playing ? (
-                <div>
-                    <span className='left'>
-                        <VideoShowcase
-                            video={currentVideo}
-                            position='left'
-                        />
-                    </span>
-                    <div className='vs-circle'>
-                        <div className='vs-text'>VS</div>
-                    </div>
-                    <span className='right'>
-                        <VideoShowcase
-                            video={nextVideo}
-                            position='right'
-                            handleHigher={handleHigher}
-                            handleLower={handleLower}
-                        />
-                    </span>
-                    <div className='score'>Score: {score}</div>
-                </div>
-            ) : showDeath ? (
-                <div className='death'>
+                <BounceDiv>
                     <div>
                         <span className='left'>
                             <VideoShowcase
@@ -93,46 +91,75 @@ function App() {
                                 position='left'
                             />
                         </span>
-
-                        <div className='go-text'>Game Over!</div>
-                        <button
-                            className='play-again'
-                            onClick={() => {
-                                setCurrentVideo(getRandomVideo(videos));
-                                setNextVideo(getRandomVideo(videos));
-                                setScore(0);
-
-                                setPlaying(true);
-                                setShowDeath(false);
-                            }}>
-                            Play Again
-                        </button>
-
                         <div className='vs-circle'>
-                            <div className='vs-text icon'>X</div>
+                            <div className='vs-text'>VS</div>
                         </div>
                         <span className='right'>
                             <VideoShowcase
                                 video={nextVideo}
-                                position='left'
-                                gameOver={true}
+                                position='right'
                                 handleHigher={handleHigher}
                                 handleLower={handleLower}
                             />
                         </span>
-                        <div className='score dead-score'>Score: {score}</div>
+                        <div className='score'>Score: {score}</div>
                     </div>
-                </div>
+                </BounceDiv>
+            ) : showDeath ? (
+                <ShakeDiv>
+                    <div className='death'>
+                        <div>
+                            <span className='left'>
+                                <VideoShowcase
+                                    video={currentVideo}
+                                    position='left'
+                                />
+                            </span>
+
+                            <div className='go-text'>Game Over!</div>
+                            <button
+                                className='play-again'
+                                onClick={() => {
+                                    setCurrentVideo(getRandomVideo(videos));
+                                    setNextVideo(getRandomVideo(videos));
+                                    setScore(0);
+
+                                    setPlaying(true);
+                                    setShowDeath(false);
+                                }}>
+                                Play Again
+                            </button>
+
+                            <div className='vs-circle'>
+                                <div className='vs-text icon'>X</div>
+                            </div>
+                            <span className='right'>
+                                <VideoShowcase
+                                    video={nextVideo}
+                                    position='left'
+                                    gameOver={true}
+                                    handleHigher={handleHigher}
+                                    handleLower={handleLower}
+                                />
+                            </span>
+                            <div className='score dead-score'>
+                                Score: {score}
+                            </div>
+                        </div>
+                    </div>
+                </ShakeDiv>
             ) : (
                 <div className='start'>
                     <h1>Welcome to "Jack Sucks At Life: Higher or Lower"!</h1>
-                    <button
-                        onClick={() => {
-                            setPlaying(true);
-                        }}
-                        className='start-button'>
-                        Start
-                    </button>
+                    <TadaDiv>
+                        <button
+                            onClick={() => {
+                                setPlaying(true);
+                            }}
+                            className='start-button'>
+                            Start
+                        </button>
+                    </TadaDiv>
 
                     <h3 className='created-by'>
                         Created with ❤️ by{' '}
@@ -152,13 +179,24 @@ function App() {
 
 export default App;
 
-let lastGenerated: Video | null = null;
+let lastGenerated: Video[] = [];
+
 function getRandomVideo(array: Video[]): Video {
     const randomVideo = array[Math.floor(Math.random() * array.length)];
 
-    if (lastGenerated == null || randomVideo.views === lastGenerated.views) {
-        return randomVideo;
+    console.log(checkForDuplicates(randomVideo, lastGenerated));
+    if (checkForDuplicates(randomVideo, lastGenerated))
+        return getRandomVideo(array);
+    lastGenerated.push(randomVideo);
+    return randomVideo;
+}
+
+function checkForDuplicates(generated: Video, list: Video[]): boolean {
+    if (list.length <= 0) return false;
+    // loop last 5 elements in list
+    for (let i of list.slice(-5)) {
+        if (generated.views === i.views) return true;
     }
 
-    return getRandomVideo(array);
+    return false;
 }
